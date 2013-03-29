@@ -1,0 +1,728 @@
+From 3d305bd9d621a60ad10a3477af69807ee79fe075 Mon Sep 17 00:00:00 2001
+From: Jeff Layton <jlayton@redhat.com>
+Date: Thu, 17 Mar 2011 08:56:04 -0400
+Subject: [PATCH] GSSAPI patch
+
+Signed-off-by: Jeff Layton <jlayton@redhat.com>
+---
+ autom4te.cache/output.0 |  102 +++++++++++++++++++++++++++++++++++++++++++++++
+ autom4te.cache/output.1 |  102 +++++++++++++++++++++++++++++++++++++++++++++++
+ autom4te.cache/requests |   26 ++++++------
+ autom4te.cache/traces.0 |   40 +++++++++---------
+ autom4te.cache/traces.1 |  100 ++++++++++++++++++++++++----------------------
+ cifs.upcall.8           |    4 +-
+ cifs.upcall.c           |   58 +++++++++++++++++++++++++-
+ config.h.in             |    6 +++
+ configure               |  102 +++++++++++++++++++++++++++++++++++++++++++++++
+ configure.ac            |    1 +
+ 10 files changed, 455 insertions(+), 86 deletions(-)
+
+diff --git a/autom4te.cache/output.0 b/autom4te.cache/output.0
+index 0766e24..1cf64a3 100644
+--- a/autom4te.cache/output.0
++++ b/autom4te.cache/output.0
+@@ -7264,6 +7264,108 @@ _ACEOF
+ fi
+ done
+ 
++	
++
++for ac_func in krb5_auth_con_setaddrs krb5_auth_con_set_req_cksumtype
++do
++as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
++{ $as_echo "$as_me:$LINENO: checking for $ac_func" >&5
++$as_echo_n "checking for $ac_func... " >&6; }
++if { as_var=$as_ac_var; eval "test \"\${$as_var+set}\" = set"; }; then
++  $as_echo_n "(cached) " >&6
++else
++  cat >conftest.$ac_ext <<_ACEOF
++/* confdefs.h.  */
++_ACEOF
++cat confdefs.h >>conftest.$ac_ext
++cat >>conftest.$ac_ext <<_ACEOF
++/* end confdefs.h.  */
++/* Define $ac_func to an innocuous variant, in case <limits.h> declares $ac_func.
++   For example, HP-UX 11i <limits.h> declares gettimeofday.  */
++#define $ac_func innocuous_$ac_func
++
++/* System header to define __stub macros and hopefully few prototypes,
++    which can conflict with char $ac_func (); below.
++    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
++    <limits.h> exists even on freestanding compilers.  */
++
++#ifdef __STDC__
++# include <limits.h>
++#else
++# include <assert.h>
++#endif
++
++#undef $ac_func
++
++/* Override any GCC internal prototype to avoid an error.
++   Use char because int might match the return type of a GCC
++   builtin and then its argument prototype would still apply.  */
++#ifdef __cplusplus
++extern "C"
++#endif
++char $ac_func ();
++/* The GNU C library defines this for functions which it implements
++    to always fail with ENOSYS.  Some functions are actually named
++    something starting with __ and the normal name is an alias.  */
++#if defined __stub_$ac_func || defined __stub___$ac_func
++choke me
++#endif
++
++int
++main ()
++{
++return $ac_func ();
++  ;
++  return 0;
++}
++_ACEOF
++rm -f conftest.$ac_objext conftest$ac_exeext
++if { (ac_try="$ac_link"
++case "(($ac_try" in
++  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
++  *) ac_try_echo=$ac_try;;
++esac
++eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
++$as_echo "$ac_try_echo") >&5
++  (eval "$ac_link") 2>conftest.er1
++  ac_status=$?
++  grep -v '^ *+' conftest.er1 >conftest.err
++  rm -f conftest.er1
++  cat conftest.err >&5
++  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
++  (exit $ac_status); } && {
++	 test -z "$ac_c_werror_flag" ||
++	 test ! -s conftest.err
++       } && test -s conftest$ac_exeext && {
++	 test "$cross_compiling" = yes ||
++	 $as_test_x conftest$ac_exeext
++       }; then
++  eval "$as_ac_var=yes"
++else
++  $as_echo "$as_me: failed program was:" >&5
++sed 's/^/| /' conftest.$ac_ext >&5
++
++	eval "$as_ac_var=no"
++fi
++
++rm -rf conftest.dSYM
++rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
++      conftest$ac_exeext conftest.$ac_ext
++fi
++ac_res=`eval 'as_val=${'$as_ac_var'}
++		 $as_echo "$as_val"'`
++	       { $as_echo "$as_me:$LINENO: result: $ac_res" >&5
++$as_echo "$ac_res" >&6; }
++as_val=`eval 'as_val=${'$as_ac_var'}
++		 $as_echo "$as_val"'`
++   if test "x$as_val" = x""yes; then
++  cat >>confdefs.h <<_ACEOF
++@%:@define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
++_ACEOF
++ 
++fi
++done
++
+ fi
+ 
+ LIBS=$cu_saved_libs
+diff --git a/autom4te.cache/output.1 b/autom4te.cache/output.1
+index 0766e24..1cf64a3 100644
+--- a/autom4te.cache/output.1
++++ b/autom4te.cache/output.1
+@@ -7264,6 +7264,108 @@ _ACEOF
+ fi
+ done
+ 
++	
++
++for ac_func in krb5_auth_con_setaddrs krb5_auth_con_set_req_cksumtype
++do
++as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
++{ $as_echo "$as_me:$LINENO: checking for $ac_func" >&5
++$as_echo_n "checking for $ac_func... " >&6; }
++if { as_var=$as_ac_var; eval "test \"\${$as_var+set}\" = set"; }; then
++  $as_echo_n "(cached) " >&6
++else
++  cat >conftest.$ac_ext <<_ACEOF
++/* confdefs.h.  */
++_ACEOF
++cat confdefs.h >>conftest.$ac_ext
++cat >>conftest.$ac_ext <<_ACEOF
++/* end confdefs.h.  */
++/* Define $ac_func to an innocuous variant, in case <limits.h> declares $ac_func.
++   For example, HP-UX 11i <limits.h> declares gettimeofday.  */
++#define $ac_func innocuous_$ac_func
++
++/* System header to define __stub macros and hopefully few prototypes,
++    which can conflict with char $ac_func (); below.
++    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
++    <limits.h> exists even on freestanding compilers.  */
++
++#ifdef __STDC__
++# include <limits.h>
++#else
++# include <assert.h>
++#endif
++
++#undef $ac_func
++
++/* Override any GCC internal prototype to avoid an error.
++   Use char because int might match the return type of a GCC
++   builtin and then its argument prototype would still apply.  */
++#ifdef __cplusplus
++extern "C"
++#endif
++char $ac_func ();
++/* The GNU C library defines this for functions which it implements
++    to always fail with ENOSYS.  Some functions are actually named
++    something starting with __ and the normal name is an alias.  */
++#if defined __stub_$ac_func || defined __stub___$ac_func
++choke me
++#endif
++
++int
++main ()
++{
++return $ac_func ();
++  ;
++  return 0;
++}
++_ACEOF
++rm -f conftest.$ac_objext conftest$ac_exeext
++if { (ac_try="$ac_link"
++case "(($ac_try" in
++  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
++  *) ac_try_echo=$ac_try;;
++esac
++eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
++$as_echo "$ac_try_echo") >&5
++  (eval "$ac_link") 2>conftest.er1
++  ac_status=$?
++  grep -v '^ *+' conftest.er1 >conftest.err
++  rm -f conftest.er1
++  cat conftest.err >&5
++  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
++  (exit $ac_status); } && {
++	 test -z "$ac_c_werror_flag" ||
++	 test ! -s conftest.err
++       } && test -s conftest$ac_exeext && {
++	 test "$cross_compiling" = yes ||
++	 $as_test_x conftest$ac_exeext
++       }; then
++  eval "$as_ac_var=yes"
++else
++  $as_echo "$as_me: failed program was:" >&5
++sed 's/^/| /' conftest.$ac_ext >&5
++
++	eval "$as_ac_var=no"
++fi
++
++rm -rf conftest.dSYM
++rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
++      conftest$ac_exeext conftest.$ac_ext
++fi
++ac_res=`eval 'as_val=${'$as_ac_var'}
++		 $as_echo "$as_val"'`
++	       { $as_echo "$as_me:$LINENO: result: $ac_res" >&5
++$as_echo "$ac_res" >&6; }
++as_val=`eval 'as_val=${'$as_ac_var'}
++		 $as_echo "$as_val"'`
++   if test "x$as_val" = x""yes; then
++  cat >>confdefs.h <<_ACEOF
++@%:@define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
++_ACEOF
++ 
++fi
++done
++
+ fi
+ 
+ LIBS=$cu_saved_libs
+diff --git a/autom4te.cache/requests b/autom4te.cache/requests
+index 735ad69..84bffa1 100644
+--- a/autom4te.cache/requests
++++ b/autom4te.cache/requests
+@@ -67,8 +67,8 @@
+                         'AM_SET_LEADING_DOT' => 1,
+                         'AM_SET_DEPDIR' => 1,
+                         '_AM_DEPENDENCIES' => 1,
+-                        'm4_include' => 1,
+                         'AM_PROG_INSTALL_SH' => 1,
++                        'm4_include' => 1,
+                         'AC_LIBCAP' => 1,
+                         '_AC_AM_CONFIG_HEADER_HOOK' => 1,
+                         'AU_DEFUN' => 1,
+@@ -87,25 +87,25 @@
+                         'configure.ac'
+                       ],
+                       {
+-                        'AM_PROG_F77_C_O' => 1,
+                         '_LT_AC_TAGCONFIG' => 1,
+-                        'AC_INIT' => 1,
++                        'AM_PROG_F77_C_O' => 1,
+                         'm4_pattern_forbid' => 1,
+-                        'AC_CANONICAL_TARGET' => 1,
++                        'AC_INIT' => 1,
+                         '_AM_COND_IF' => 1,
+-                        'AC_CONFIG_LIBOBJ_DIR' => 1,
++                        'AC_CANONICAL_TARGET' => 1,
+                         'AC_SUBST' => 1,
+-                        'AC_CANONICAL_HOST' => 1,
++                        'AC_CONFIG_LIBOBJ_DIR' => 1,
+                         'AC_FC_SRCEXT' => 1,
++                        'AC_CANONICAL_HOST' => 1,
+                         'AC_PROG_LIBTOOL' => 1,
+                         'AM_INIT_AUTOMAKE' => 1,
+                         'AC_CONFIG_SUBDIRS' => 1,
+                         'AM_AUTOMAKE_VERSION' => 1,
+                         'LT_CONFIG_LTDL_DIR' => 1,
+-                        'AC_CONFIG_LINKS' => 1,
+                         'AC_REQUIRE_AUX_FILE' => 1,
+-                        'LT_SUPPORTED_TAG' => 1,
++                        'AC_CONFIG_LINKS' => 1,
+                         'm4_sinclude' => 1,
++                        'LT_SUPPORTED_TAG' => 1,
+                         'AM_MAINTAINER_MODE' => 1,
+                         'AM_GNU_GETTEXT_INTL_SUBDIR' => 1,
+                         '_m4_warn' => 1,
+@@ -118,17 +118,17 @@
+                         'include' => 1,
+                         'AM_GNU_GETTEXT' => 1,
+                         'AC_LIBSOURCE' => 1,
+-                        'AM_PROG_FC_C_O' => 1,
+                         'AC_CANONICAL_BUILD' => 1,
++                        'AM_PROG_FC_C_O' => 1,
+                         'AC_FC_FREEFORM' => 1,
+                         'AH_OUTPUT' => 1,
+-                        'AC_CONFIG_AUX_DIR' => 1,
+                         '_AM_SUBST_NOTMAKE' => 1,
+-                        'AM_PROG_CC_C_O' => 1,
+-                        'm4_pattern_allow' => 1,
++                        'AC_CONFIG_AUX_DIR' => 1,
+                         'sinclude' => 1,
+-                        'AM_CONDITIONAL' => 1,
++                        'm4_pattern_allow' => 1,
++                        'AM_PROG_CC_C_O' => 1,
+                         'AC_CANONICAL_SYSTEM' => 1,
++                        'AM_CONDITIONAL' => 1,
+                         'AC_CONFIG_HEADERS' => 1,
+                         'AC_DEFINE_TRACE_LITERAL' => 1,
+                         'm4_include' => 1,
+diff --git a/autom4te.cache/traces.0 b/autom4te.cache/traces.0
+index 8489a7b..e159691 100644
+--- a/autom4te.cache/traces.0
++++ b/autom4te.cache/traces.0
+@@ -849,23 +849,23 @@ m4trace:configure.ac:97: -1- m4_pattern_allow([^HAVE_REALLOC$])
+ m4trace:configure.ac:97: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+ m4trace:configure.ac:97: -1- m4_pattern_allow([^realloc$])
+ m4trace:configure.ac:98: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+-m4trace:configure.ac:119: -1- AM_CONDITIONAL([CONFIG_CIFSUPCALL], [test "$enable_cifsupcall" != "no"])
+-m4trace:configure.ac:119: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_TRUE$])
+-m4trace:configure.ac:119: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_FALSE$])
+-m4trace:configure.ac:119: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_TRUE])
+-m4trace:configure.ac:119: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_FALSE])
+-m4trace:configure.ac:121: -1- LIBCAP_NG_PATH
+-m4trace:configure.ac:121: -1- m4_pattern_allow([^CAPNG_LDADD$])
+-m4trace:configure.ac:121: -1- m4_pattern_allow([^HAVE_LIBCAP_NG$])
+-m4trace:configure.ac:124: -1- AC_LIBCAP
+-m4trace:configure.ac:124: -1- m4_pattern_allow([^HAVE_LIBCAP$])
+-m4trace:configure.ac:124: -1- m4_pattern_allow([^LIBCAP$])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^LTLIBOBJS$])
+-m4trace:configure.ac:126: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+-m4trace:configure.ac:126: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+-m4trace:configure.ac:126: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+-m4trace:configure.ac:126: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+-m4trace:configure.ac:126: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
++m4trace:configure.ac:120: -1- AM_CONDITIONAL([CONFIG_CIFSUPCALL], [test "$enable_cifsupcall" != "no"])
++m4trace:configure.ac:120: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_TRUE$])
++m4trace:configure.ac:120: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_FALSE$])
++m4trace:configure.ac:120: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_TRUE])
++m4trace:configure.ac:120: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_FALSE])
++m4trace:configure.ac:122: -1- LIBCAP_NG_PATH
++m4trace:configure.ac:122: -1- m4_pattern_allow([^CAPNG_LDADD$])
++m4trace:configure.ac:122: -1- m4_pattern_allow([^HAVE_LIBCAP_NG$])
++m4trace:configure.ac:125: -1- AC_LIBCAP
++m4trace:configure.ac:125: -1- m4_pattern_allow([^HAVE_LIBCAP$])
++m4trace:configure.ac:125: -1- m4_pattern_allow([^LIBCAP$])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^LIB@&t@OBJS$])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^LTLIBOBJS$])
++m4trace:configure.ac:127: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
++m4trace:configure.ac:127: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
++m4trace:configure.ac:127: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
++m4trace:configure.ac:127: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
++m4trace:configure.ac:127: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
+diff --git a/autom4te.cache/traces.1 b/autom4te.cache/traces.1
+index b27117b..61c02d0 100644
+--- a/autom4te.cache/traces.1
++++ b/autom4te.cache/traces.1
+@@ -584,54 +584,58 @@ m4trace:configure.ac:114: -1- AH_OUTPUT([HAVE_KRB5_PRINCIPAL_GET_REALM], [/* Def
+ #undef HAVE_KRB5_PRINCIPAL_GET_REALM])
+ m4trace:configure.ac:114: -1- AH_OUTPUT([HAVE_KRB5_FREE_UNPARSED_NAME], [/* Define to 1 if you have the `krb5_free_unparsed_name\' function. */
+ #undef HAVE_KRB5_FREE_UNPARSED_NAME])
+-m4trace:configure.ac:119: -1- AM_CONDITIONAL([CONFIG_CIFSUPCALL], [test "$enable_cifsupcall" != "no"])
+-m4trace:configure.ac:119: -1- AC_SUBST([CONFIG_CIFSUPCALL_TRUE])
+-m4trace:configure.ac:119: -1- AC_SUBST_TRACE([CONFIG_CIFSUPCALL_TRUE])
+-m4trace:configure.ac:119: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_TRUE$])
+-m4trace:configure.ac:119: -1- AC_SUBST([CONFIG_CIFSUPCALL_FALSE])
+-m4trace:configure.ac:119: -1- AC_SUBST_TRACE([CONFIG_CIFSUPCALL_FALSE])
+-m4trace:configure.ac:119: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_FALSE$])
+-m4trace:configure.ac:119: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_TRUE])
+-m4trace:configure.ac:119: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_FALSE])
+-m4trace:configure.ac:121: -1- AC_SUBST([CAPNG_LDADD])
+-m4trace:configure.ac:121: -1- AC_SUBST_TRACE([CAPNG_LDADD])
+-m4trace:configure.ac:121: -1- m4_pattern_allow([^CAPNG_LDADD$])
+-m4trace:configure.ac:121: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCAP_NG])
+-m4trace:configure.ac:121: -1- m4_pattern_allow([^HAVE_LIBCAP_NG$])
+-m4trace:configure.ac:121: -1- AH_OUTPUT([HAVE_LIBCAP_NG], [/* libcap-ng support */
++m4trace:configure.ac:115: -1- AH_OUTPUT([HAVE_KRB5_AUTH_CON_SETADDRS], [/* Define to 1 if you have the `krb5_auth_con_setaddrs\' function. */
++#undef HAVE_KRB5_AUTH_CON_SETADDRS])
++m4trace:configure.ac:115: -1- AH_OUTPUT([HAVE_KRB5_AUTH_CON_SET_REQ_CKSUMTYPE], [/* Define to 1 if you have the `krb5_auth_con_set_req_cksumtype\' function. */
++#undef HAVE_KRB5_AUTH_CON_SET_REQ_CKSUMTYPE])
++m4trace:configure.ac:120: -1- AM_CONDITIONAL([CONFIG_CIFSUPCALL], [test "$enable_cifsupcall" != "no"])
++m4trace:configure.ac:120: -1- AC_SUBST([CONFIG_CIFSUPCALL_TRUE])
++m4trace:configure.ac:120: -1- AC_SUBST_TRACE([CONFIG_CIFSUPCALL_TRUE])
++m4trace:configure.ac:120: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_TRUE$])
++m4trace:configure.ac:120: -1- AC_SUBST([CONFIG_CIFSUPCALL_FALSE])
++m4trace:configure.ac:120: -1- AC_SUBST_TRACE([CONFIG_CIFSUPCALL_FALSE])
++m4trace:configure.ac:120: -1- m4_pattern_allow([^CONFIG_CIFSUPCALL_FALSE$])
++m4trace:configure.ac:120: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_TRUE])
++m4trace:configure.ac:120: -1- _AM_SUBST_NOTMAKE([CONFIG_CIFSUPCALL_FALSE])
++m4trace:configure.ac:122: -1- AC_SUBST([CAPNG_LDADD])
++m4trace:configure.ac:122: -1- AC_SUBST_TRACE([CAPNG_LDADD])
++m4trace:configure.ac:122: -1- m4_pattern_allow([^CAPNG_LDADD$])
++m4trace:configure.ac:122: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCAP_NG])
++m4trace:configure.ac:122: -1- m4_pattern_allow([^HAVE_LIBCAP_NG$])
++m4trace:configure.ac:122: -1- AH_OUTPUT([HAVE_LIBCAP_NG], [/* libcap-ng support */
+ #undef HAVE_LIBCAP_NG])
+-m4trace:configure.ac:124: -1- AH_OUTPUT([HAVE_SYS_CAPABILITY_H], [/* Define to 1 if you have the <sys/capability.h> header file. */
++m4trace:configure.ac:125: -1- AH_OUTPUT([HAVE_SYS_CAPABILITY_H], [/* Define to 1 if you have the <sys/capability.h> header file. */
+ #undef HAVE_SYS_CAPABILITY_H])
+-m4trace:configure.ac:124: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCAP])
+-m4trace:configure.ac:124: -1- m4_pattern_allow([^HAVE_LIBCAP$])
+-m4trace:configure.ac:124: -1- AH_OUTPUT([HAVE_LIBCAP], [/* Define if libcap exists */
++m4trace:configure.ac:125: -1- AC_DEFINE_TRACE_LITERAL([HAVE_LIBCAP])
++m4trace:configure.ac:125: -1- m4_pattern_allow([^HAVE_LIBCAP$])
++m4trace:configure.ac:125: -1- AH_OUTPUT([HAVE_LIBCAP], [/* Define if libcap exists */
+ #undef HAVE_LIBCAP])
+-m4trace:configure.ac:124: -1- AC_SUBST([LIBCAP])
+-m4trace:configure.ac:124: -1- AC_SUBST_TRACE([LIBCAP])
+-m4trace:configure.ac:124: -1- m4_pattern_allow([^LIBCAP$])
+-m4trace:configure.ac:126: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+-m4trace:configure.ac:126: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([LTLIBOBJS])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^LTLIBOBJS$])
+-m4trace:configure.ac:126: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+-m4trace:configure.ac:126: -1- AC_SUBST([am__EXEEXT_TRUE])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([am__EXEEXT_TRUE])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+-m4trace:configure.ac:126: -1- AC_SUBST([am__EXEEXT_FALSE])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([am__EXEEXT_FALSE])
+-m4trace:configure.ac:126: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+-m4trace:configure.ac:126: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+-m4trace:configure.ac:126: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([top_builddir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([top_build_prefix])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([srcdir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([abs_srcdir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([top_srcdir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([abs_top_srcdir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([builddir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([abs_builddir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([abs_top_builddir])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([INSTALL])
+-m4trace:configure.ac:126: -1- AC_SUBST_TRACE([MKDIR_P])
++m4trace:configure.ac:125: -1- AC_SUBST([LIBCAP])
++m4trace:configure.ac:125: -1- AC_SUBST_TRACE([LIBCAP])
++m4trace:configure.ac:125: -1- m4_pattern_allow([^LIBCAP$])
++m4trace:configure.ac:127: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([LIB@&t@OBJS])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^LIB@&t@OBJS$])
++m4trace:configure.ac:127: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([LTLIBOBJS])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^LTLIBOBJS$])
++m4trace:configure.ac:127: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
++m4trace:configure.ac:127: -1- AC_SUBST([am__EXEEXT_TRUE])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([am__EXEEXT_TRUE])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
++m4trace:configure.ac:127: -1- AC_SUBST([am__EXEEXT_FALSE])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([am__EXEEXT_FALSE])
++m4trace:configure.ac:127: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
++m4trace:configure.ac:127: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
++m4trace:configure.ac:127: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([top_builddir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([top_build_prefix])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([srcdir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([abs_srcdir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([top_srcdir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([abs_top_srcdir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([builddir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([abs_builddir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([abs_top_builddir])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([INSTALL])
++m4trace:configure.ac:127: -1- AC_SUBST_TRACE([MKDIR_P])
+diff --git a/cifs.upcall.8 b/cifs.upcall.8
+index 3207f6f..5b8a25e 100644
+--- a/cifs.upcall.8
++++ b/cifs.upcall.8
+@@ -78,8 +78,8 @@ To make this program useful for CIFS, you\'ll need to set up entries for them in
+ .nf
+ #OPERATION  TYPE           D C PROGRAM ARG1 ARG2\&.\&.\&.
+ #=========  =============  = = ================================
+-create      cifs\&.spnego    * * /usr/local/sbin/cifs\&.upcall %k
+-create      dns_resolver   * * /usr/local/sbin/cifs\&.upcall %k
++create      cifs\&.spnego    * * /usr/sbin/cifs\&.upcall %k
++create      dns_resolver   * * /usr/sbin/cifs\&.upcall %k
+ .fi
+ .if n \{\
+ .RE
+diff --git a/cifs.upcall.c b/cifs.upcall.c
+index 8f7850a..cca581a 100644
+--- a/cifs.upcall.c
++++ b/cifs.upcall.c
+@@ -261,6 +261,9 @@ cifs_krb5_get_req(const char *principal, const char *ccname,
+ 	krb5_creds in_creds = { }, *out_creds;
+ 	krb5_data apreq_pkt, in_data;
+ 	krb5_auth_context auth_context = NULL;
++#if defined(HAVE_KRB5_AUTH_CON_SETADDRS) && defined(HAVE_KRB5_AUTH_CON_SET_REQ_CKSUMTYPE)
++	static const uint8_t gss_cksum[24] = { 0x10, 0x00, /* ... */};
++#endif
+ 
+ 	ret = krb5_init_context(&context);
+ 	if (ret) {
+@@ -297,27 +300,76 @@ cifs_krb5_get_req(const char *principal, const char *ccname,
+ 		goto out_free_principal;
+ 	}
+ 
+-	apreq_pkt.data = NULL;
+ 	in_data.length = 0;
++	in_data.data = NULL;
++
++	ret = krb5_auth_con_init(context, &auth_context);
++	if (ret) {
++		syslog(LOG_DEBUG, "%s: unable to create auth_context: %d",
++		       __func__, ret);
++		goto out_free_creds;
++	}
++
++#if defined(HAVE_KRB5_AUTH_CON_SETADDRS) && defined(HAVE_KRB5_AUTH_CON_SET_REQ_CKSUMTYPE)
++	/* Ensure we will get an addressless ticket. */
++	ret = krb5_auth_con_setaddrs(context, auth_context, NULL, NULL);
++	if (ret) {
++		syslog(LOG_DEBUG, "%s: unable to set NULL addrs: %d",
++		       __func__, ret);
++		goto out_free_auth;
++	}
++
++	/*
++	 * Create a GSSAPI checksum (0x8003), see RFC 4121.
++	 *
++	 * The current layout is
++	 *
++	 * 0x10, 0x00, 0x00, 0x00 - length = 16
++	 * 0x00, 0x00, 0x00, 0x00 - channel binding info - 16 zero bytes
++	 * 0x00, 0x00, 0x00, 0x00
++	 * 0x00, 0x00, 0x00, 0x00
++	 * 0x00, 0x00, 0x00, 0x00
++	 * 0x00, 0x00, 0x00, 0x00 - flags
++	 *
++	 * GSS_C_NO_CHANNEL_BINDINGS means 16 zero bytes,
++	 * this is needed to work against some closed source
++	 * SMB servers.
++	 *
++	 * See https://bugzilla.samba.org/show_bug.cgi?id=7890
++	 */
++	in_data.data = discard_const_p(char, gss_cksum);
++	in_data.length = 24;
++	ret = krb5_auth_con_set_req_cksumtype(context, auth_context, 0x8003);
++	if (ret) {
++		syslog(LOG_DEBUG, "%s: unable to set 0x8003 checksum",
++		       __func__);
++		goto out_free_auth;
++	}
++#endif
++
++	apreq_pkt.length = 0;
++	apreq_pkt.data = NULL;
+ 	ret = krb5_mk_req_extended(context, &auth_context, AP_OPTS_USE_SUBKEY,
+ 				   &in_data, out_creds, &apreq_pkt);
+ 	if (ret) {
+ 		syslog(LOG_DEBUG, "%s: unable to make AP-REQ for %s",
+ 		       __func__, principal);
+-		goto out_free_creds;
++		goto out_free_auth;
+ 	}
+ 
+ 	ret = krb5_auth_con_getsendsubkey(context, auth_context, &tokb);
+ 	if (ret) {
+ 		syslog(LOG_DEBUG, "%s: unable to get session key for %s",
+ 		       __func__, principal);
+-		goto out_free_creds;
++		goto out_free_auth;
+ 	}
+ 
+ 	*mechtoken = data_blob(apreq_pkt.data, apreq_pkt.length);
+ 	*sess_key = data_blob(KRB5_KEY_DATA(tokb), KRB5_KEY_LENGTH(tokb));
+ 
+ 	krb5_free_keyblock(context, tokb);
++out_free_auth:
++	krb5_auth_con_free(context, auth_context);
+ out_free_creds:
+ 	krb5_free_creds(context, out_creds);
+ out_free_principal:
+diff --git a/config.h.in b/config.h.in
+index 1c2159e..5e3101c 100644
+--- a/config.h.in
++++ b/config.h.in
+@@ -36,6 +36,12 @@
+ /* Define to 1 if you have the `krb5_auth_con_getsendsubkey' function. */
+ #undef HAVE_KRB5_AUTH_CON_GETSENDSUBKEY
+ 
++/* Define to 1 if you have the `krb5_auth_con_setaddrs' function. */
++#undef HAVE_KRB5_AUTH_CON_SETADDRS
++
++/* Define to 1 if you have the `krb5_auth_con_set_req_cksumtype' function. */
++#undef HAVE_KRB5_AUTH_CON_SET_REQ_CKSUMTYPE
++
+ /* Define to 1 if you have the `krb5_free_unparsed_name' function. */
+ #undef HAVE_KRB5_FREE_UNPARSED_NAME
+ 
+diff --git a/configure b/configure
+index 1e0eeb9..70d0682 100755
+--- a/configure
++++ b/configure
+@@ -7264,6 +7264,108 @@ _ACEOF
+ fi
+ done
+ 
++
++
++for ac_func in krb5_auth_con_setaddrs krb5_auth_con_set_req_cksumtype
++do
++as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
++{ $as_echo "$as_me:$LINENO: checking for $ac_func" >&5
++$as_echo_n "checking for $ac_func... " >&6; }
++if { as_var=$as_ac_var; eval "test \"\${$as_var+set}\" = set"; }; then
++  $as_echo_n "(cached) " >&6
++else
++  cat >conftest.$ac_ext <<_ACEOF
++/* confdefs.h.  */
++_ACEOF
++cat confdefs.h >>conftest.$ac_ext
++cat >>conftest.$ac_ext <<_ACEOF
++/* end confdefs.h.  */
++/* Define $ac_func to an innocuous variant, in case <limits.h> declares $ac_func.
++   For example, HP-UX 11i <limits.h> declares gettimeofday.  */
++#define $ac_func innocuous_$ac_func
++
++/* System header to define __stub macros and hopefully few prototypes,
++    which can conflict with char $ac_func (); below.
++    Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
++    <limits.h> exists even on freestanding compilers.  */
++
++#ifdef __STDC__
++# include <limits.h>
++#else
++# include <assert.h>
++#endif
++
++#undef $ac_func
++
++/* Override any GCC internal prototype to avoid an error.
++   Use char because int might match the return type of a GCC
++   builtin and then its argument prototype would still apply.  */
++#ifdef __cplusplus
++extern "C"
++#endif
++char $ac_func ();
++/* The GNU C library defines this for functions which it implements
++    to always fail with ENOSYS.  Some functions are actually named
++    something starting with __ and the normal name is an alias.  */
++#if defined __stub_$ac_func || defined __stub___$ac_func
++choke me
++#endif
++
++int
++main ()
++{
++return $ac_func ();
++  ;
++  return 0;
++}
++_ACEOF
++rm -f conftest.$ac_objext conftest$ac_exeext
++if { (ac_try="$ac_link"
++case "(($ac_try" in
++  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
++  *) ac_try_echo=$ac_try;;
++esac
++eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
++$as_echo "$ac_try_echo") >&5
++  (eval "$ac_link") 2>conftest.er1
++  ac_status=$?
++  grep -v '^ *+' conftest.er1 >conftest.err
++  rm -f conftest.er1
++  cat conftest.err >&5
++  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
++  (exit $ac_status); } && {
++	 test -z "$ac_c_werror_flag" ||
++	 test ! -s conftest.err
++       } && test -s conftest$ac_exeext && {
++	 test "$cross_compiling" = yes ||
++	 $as_test_x conftest$ac_exeext
++       }; then
++  eval "$as_ac_var=yes"
++else
++  $as_echo "$as_me: failed program was:" >&5
++sed 's/^/| /' conftest.$ac_ext >&5
++
++	eval "$as_ac_var=no"
++fi
++
++rm -rf conftest.dSYM
++rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
++      conftest$ac_exeext conftest.$ac_ext
++fi
++ac_res=`eval 'as_val=${'$as_ac_var'}
++		 $as_echo "$as_val"'`
++	       { $as_echo "$as_me:$LINENO: result: $ac_res" >&5
++$as_echo "$ac_res" >&6; }
++as_val=`eval 'as_val=${'$as_ac_var'}
++		 $as_echo "$as_val"'`
++   if test "x$as_val" = x""yes; then
++  cat >>confdefs.h <<_ACEOF
++#define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
++_ACEOF
++
++fi
++done
++
+ fi
+ 
+ LIBS=$cu_saved_libs
+diff --git a/configure.ac b/configure.ac
+index c56a944..102b560 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -112,6 +112,7 @@ fi
+ # non-critical functions (we have workarounds for these)
+ if test $enable_cifsupcall != "no"; then
+ 	AC_CHECK_FUNCS([krb5_principal_get_realm krb5_free_unparsed_name])
++	AC_CHECK_FUNCS([krb5_auth_con_setaddrs krb5_auth_con_set_req_cksumtype])
+ fi
+ 
+ LIBS=$cu_saved_libs
+-- 
+1.7.1
+

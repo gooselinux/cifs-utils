@@ -3,7 +3,7 @@
 
 Name:           cifs-utils
 Version:        4.4
-Release:        5%{pre_release}%{?dist}
+Release:        5%{pre_release}%{?dist}.2
 Summary:        Utilities for mounting and managing CIFS mounts
 
 Group:          System Environment/Daemons
@@ -16,6 +16,7 @@ Source0:        ftp://ftp.samba.org/pub/linux-cifs/cifs-utils/%{name}-%{version}
 Patch1:		cifs-utils-mount.cifs-strip-leading-delimiter.patch
 Patch2:		cifs-utils-cifs.upcall-use-creduid-parm-by-default.patch
 Patch3:		cifs-utils-cifs.upcall-require-a-uid-or-creduid-parm.patch
+Patch4:		cifs-utils-cifs.upcall-gssapi-checksum.patch
 
 BuildRequires:  libcap-ng-devel libtalloc-devel krb5-devel keyutils-libs-devel autoconf automake
 Requires:       keyutils
@@ -33,6 +34,7 @@ file system.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %configure --prefix=/usr
@@ -54,6 +56,13 @@ rm -rf %{buildroot}
 %{_mandir}/man8/mount.cifs.8.gz
 
 %changelog
+* Thu Mar 17 2011 Jeff Layton <jlayton@redhat.com> 4.4-5.el6.0.2
+- cifs.upcall: remove fix for '-l' option (bz 668366)
+
+* Mon Jan 10 2011 Jeff Layton <jlayton@redhat.com> 4.4-5.el6.0.1
+- cifs.upcall: set GSSAPI checksum in SPNEGO blobs (bz 668366)
+- cifs.upcall: fix '-l' option (bz 668366)
+
 * Wed Jul 28 2010 Jeff Layton <jlayton@redhat.com> 4.4-5
 - cifs.upcall: handle "creduid=" upcall parameter (bz 618609)
 
